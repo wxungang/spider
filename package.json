@@ -1,0 +1,11 @@
+{
+  "name": "spider",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "^4.16.3",
+    "config-lite": "^2.1.0",
+    "request": "^2.85.0",
+    "cheerio": "*",
+    "iconv-lite": "^0.4.21"
+  }
+}
