@@ -1,0 +1,512 @@
+/**
+ * Created by xiaogang on 2016/12/12.
+ */
+/*
+* common.less
+* 功能：通用样式，各项目间的一些基类、常用类等：
+* 要求：
+* 1、媒体查询或者基本dom的样式
+* 2、基础常用类的定义：right\left\hide等
+* 3、项目业务相关的基础类或者通用类：请放到自有项目的common.less中去，通过@import base\common 导入共用的样式
+*/
+/**
+*
+*/
+/*
+* base.less
+* 功能：基本样式，浏览器兼容或者统一浏览器基本样式
+* 基本要求：
+* - 不含任何类名（只存在dom标签）
+* - 只做浏览器间 各dom 标签渲染 的统一性问题
+* - 对于新发现的 样式 统一性问题 最好备注一下手机型号、系统、具体样式等信息
+*/
+html,
+body,
+p,
+input,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+li,
+textarea {
+  padding: 0;
+  margin: 0;
+}
+body {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+img {
+  width: 100%;
+}
+a,
+ul,
+li {
+  text-decoration: none;
+}
+ul,
+li {
+  list-style: none;
+}
+a:-webkit-any-link {
+  color: inherit;
+}
+input {
+  -webkit-tap-highlight-color: #fff;
+  outline: none;
+  border: none;
+  line-height: 100%;
+  font: inherit;
+  background-color: inherit;
+}
+input[type="search"]::-webkit-search-cancel-button {
+  /* Remove default */
+  -webkit-appearance: none;
+}
+p {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+}
+/**
+*  和项目相关的 标签类设置、
+*/
+body,
+html {
+  height: 100%;
+  width: 100%;
+}
+img {
+  width: 100%;
+}
+/**
+* 基本常用类
+*/
+.right {
+  float: right;
+}
+.left {
+  float: left;
+}
+.f-bold {
+  font-weight: bold;
+}
+.hide {
+  display: none;
+}
+.overflow {
+  overflow: hidden;
+}
+.transform180 {
+  transform: rotate(180deg);
+}
+.center {
+  text-align: center;
+}
+/**
+* bgColor:
+* color:
+*
+*/
+/**
+* size函数主要
+* height:
+* font-size:
+* radius:
+*
+*/
+/**
+* 解决垂直方向的一些问题
+**/
+/**
+ * Created by xiaogang on 2016/9/28.
+ copy from weiXin
+ */
+.up-header {
+  overflow: hidden;
+  text-align: center;
+  color: #fff;
+  background-color: #000;
+  height: 1rem;
+  line-height: 1rem;
+  font-size: 0.36rem;
+}
+.up-header .back,
+.up-header .set,
+.up-header .text {
+  float: left;
+  width: 15%;
+  height: 100%;
+}
+.up-header .text {
+  width: 70%;
+}
+.up-list {
+  overflow: hidden;
+  padding: 0 0.3rem;
+  color: #333;
+  background-color: #fff;
+  height: 0.8rem;
+  line-height: 0.8rem;
+  font-size: 0.28rem;
+  margin-bottom: 0.2rem;
+}
+.up-list .key,
+.up-list .value {
+  display: inline-block;
+}
+.up-list .iconfont.left {
+  margin-right: 0.15rem;
+}
+.up-list.list-l {
+  height: 0.9rem;
+  line-height: 0.9rem;
+  font-size: 0.32rem;
+}
+.up-list.list-s {
+  height: 0.6rem;
+  line-height: 0.6rem;
+  font-size: 0.26rem;
+}
+.up-list.list-sx {
+  height: 0.5rem;
+  line-height: 0.5rem;
+  font-size: 0.24rem;
+}
+.up-ellipsis {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+.up-ellipsis2 {
+  word-break: break-all !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  display: -webkit-box !important;
+}
+.up-ellipsis3 {
+  word-break: break-all !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  -webkit-line-clamp: 3 !important;
+  -webkit-box-orient: vertical !important;
+  display: -webkit-box !important;
+}
+.up-input {
+  width: 100%;
+  position: relative;
+  color: #999;
+  background-color: #fff;
+  height: 0.6rem;
+  line-height: 0.6rem;
+  border-radius: 0.06rem;
+}
+.up-input input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+}
+.up-input .iconfont {
+  display: inline-block;
+  position: absolute;
+  height: 100%;
+  text-align: center;
+  top: 0;
+}
+.up-input .iconfont.right {
+  right: 0;
+}
+.up-input input {
+  padding-left: 0.6rem;
+}
+.up-input .iconfont {
+  width: 0.6rem;
+}
+.up-input.input-l {
+  height: 0.8rem;
+  line-height: 0.8rem;
+  border-radius: 0.08rem;
+}
+.up-input.input-l input {
+  padding-left: 0.8rem;
+}
+.up-input.input-l .iconfont {
+  width: 0.8rem;
+}
+.up-input.input-s {
+  height: 0.48rem;
+  line-height: 0.48rem;
+  border-radius: 0.06rem;
+}
+.up-input.input-s input {
+  padding-left: 0.48rem;
+}
+.up-input.input-s .iconfont {
+  width: 0.48rem;
+}
+.up-button {
+  display: block;
+  margin: 0.1rem auto;
+  text-align: center;
+  font-weight: bold;
+  background-color: #6cc20e;
+  color: #fff;
+  width: 90%;
+  height: 0.8rem;
+  line-height: 0.8rem;
+  font-size: 0.36rem;
+  border-radius: 0.06rem;
+}
+.up-button.active,
+.up-button:active {
+  background-color: #589116;
+}
+.up-button.inactive,
+.up-button:disabled {
+  background-color: #bcbcbc;
+}
+.up-button.button-l {
+  width: 90%;
+  height: 0.9rem;
+  line-height: 0.9rem;
+  font-size: 0.38rem;
+  border-radius: 0.06rem;
+}
+.up-button.button-s {
+  width: 90%;
+  height: 0.6rem;
+  line-height: 0.6rem;
+  font-size: 0.3rem;
+  border-radius: 0.06rem;
+}
+.up-button.button-coupon {
+  background-color: #fd3259;
+  color: #fff;
+}
+.up-button.button-coupon.active,
+.up-button.button-coupon:active {
+  background-color: #c42544;
+}
+.up-button.button-coupon.inactive,
+.up-button.button-coupon:disabled {
+  background-color: #bcbcbc;
+}
+.up-checkbox {
+  display: inline-block;
+  color: #333;
+  line-height: 0.5rem;
+  height: 0.5rem;
+  font-size: 0.3rem;
+}
+.up-checkbox input[type='checkbox'] {
+  height: 0.4rem;
+  width: 0.4rem;
+  margin: 0.05rem;
+  float: left;
+}
+.up-checkbox.checkbox-l {
+  line-height: 0.6rem;
+  height: 0.6rem;
+  font-size: 0.32rem;
+}
+.up-checkbox.checkbox-l input[type='checkbox'] {
+  height: 0.48rem;
+  width: 0.48rem;
+  margin: 0.06rem;
+  float: left;
+}
+.up-textarea {
+  font: inherit;
+  resize: none;
+  outline: none;
+  border: none;
+  box-sizing: border-box;
+  word-break: break-all;
+  -webkit-appearance: none;
+  color: #999;
+  background-color: #fff;
+  padding: 0.2rem 3%;
+  line-height: 0.38rem;
+  font-size: 0.28rem;
+  height: 3.6rem;
+  width: 100%;
+}
+.up-textarea.textarea-l {
+  line-height: 0.4rem;
+  font-size: 0.3rem;
+  height: 3.6rem;
+  width: 100%;
+}
+.up-switch {
+  -webkit-appearance: none;
+  appearance: none;
+  outline: 0;
+  position: relative;
+  border: 0.024rem solid #DFDFDF;
+  box-sizing: border-box;
+  background-color: #DFDFDF;
+  -webkit-transition: background-color 0.1s, border 0.1s;
+  transition: background-color 0.1s, border 0.1s;
+  width: 1.248rem;
+  height: 0.768rem;
+  border-radius: 0.384rem;
+}
+.up-switch:before {
+  content: " ";
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #DFDFDF;
+  -webkit-transition: -webkit-transform 0.35s cubic-bezier(0.45, 1, 0.4, 1);
+  transition: -webkit-transform 0.35s cubic-bezier(0.45, 1, 0.4, 1);
+  transition: transform 0.35s cubic-bezier(0.45, 1, 0.4, 1);
+  transition: transform 0.35s cubic-bezier(0.45, 1, 0.4, 1), -webkit-transform 0.35s cubic-bezier(0.45, 1, 0.4, 1);
+}
+.up-switch:after {
+  content: " ";
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 0.024rem 0.072rem rgba(0, 0, 0, 0.4);
+  -webkit-transition: -webkit-transform 0.35s cubic-bezier(0.4, 0.4, 0.25, 1.35);
+  transition: -webkit-transform 0.35s cubic-bezier(0.4, 0.4, 0.25, 1.35);
+  transition: transform 0.35s cubic-bezier(0.4, 0.4, 0.25, 1.35);
+  transition: transform 0.35s cubic-bezier(0.4, 0.4, 0.25, 1.35), -webkit-transform 0.35s cubic-bezier(0.4, 0.4, 0.25, 1.35);
+}
+.up-switch:checked {
+  border-color: #04BE02;
+  background-color: #04BE02;
+}
+.up-switch:checked:before {
+  -webkit-transform: scale(0);
+  transform: scale(0);
+}
+.up-switch:before {
+  width: 1.2rem;
+  height: 0.72rem;
+  border-radius: 0.36rem;
+}
+.up-switch:after {
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 0.36rem;
+}
+.up-switch:checked:after {
+  -webkit-transform: translateX(0.48rem);
+  transform: translateX(0.48rem);
+}
+.up-switch.switch-s {
+  width: 1.042rem;
+  height: 0.642rem;
+  border-radius: 0.321rem;
+}
+.up-switch.switch-s:before {
+  width: 1rem;
+  height: 0.6rem;
+  border-radius: 0.3rem;
+}
+.up-switch.switch-s:after {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 0.3rem;
+}
+.up-switch.switch-s:checked:after {
+  -webkit-transform: translateX(0.4rem);
+  transform: translateX(0.4rem);
+}
+.up-switch.switch-l {
+  width: 1.56rem;
+  height: 0.96rem;
+  border-radius: 0.48rem;
+}
+.up-switch.switch-l:before {
+  width: 1.5rem;
+  height: 0.9rem;
+  border-radius: 0.45rem;
+}
+.up-switch.switch-l:after {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 0.45rem;
+}
+.up-switch.switch-l:checked:after {
+  -webkit-transform: translateX(0.6rem);
+  transform: translateX(0.6rem);
+}
+.up-vertical {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
+/**
+ * Created by xiaogang on 2016/11/23.
+ */
+.up-address {
+  position: relative;
+  background-color: #fff;
+  color: #666;
+  font-size: 0.28rem;
+  padding: 0.2rem 0;
+}
+.up-address .addr {
+  margin: 0 1rem;
+  line-height: 0.4rem;
+  width: 5.5rem;
+  display: inline-block;
+}
+.up-address .iconfont {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+  -webkit-transform: translate(0, -50%);
+  left: 0.44rem;
+}
+.up-address .iconfont.right {
+  left: initial;
+  right: 0.44rem;
+}
+/**
+ * Created by xiaogang on 2017/2/23.
+ * iconfont 统一管理
+ */
+.iconfont {
+  font-size: inherit;
+}
+.icon-coupon-1,
+.icon-coupon-2 {
+  color: #FD3259;
+}
+.icon-coupon-3,
+.icon-coupon-4 {
+  color: #FFB400;
+}
+.icon-coupon-5 {
+  color: #2ECA76;
+}
+.icon-coupon-6,
+.icon-coupon-7 {
+  color: #4A90E2;
+}
+.icon-favorite {
+  color: #FD3259;
+}
+.icon-star-fill,
+.icon-star-empty {
+  color: #FD3259;
+}
+.icon-heartbreak {
+  color: #FD3259;
+}
+body,
+.up-page {
+  background-color: #eaeaea;
+  font-size: 0.28rem;
+}

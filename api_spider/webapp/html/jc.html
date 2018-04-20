@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>login</title>
+    <script type="text/javascript" src="../common/resize.js"></script>
+    <link type="text/css" rel="stylesheet" href="../common/common.css"/>
+    <style type="text/css">
+        body {
+            height: initial;
+        }
+
+        .content {
+            margin: 2rem 0.8rem;
+        }
+
+        .table, .table .item {
+            text-align: center;
+            line-height: 25px;
+            overflow: hidden;
+        }
+
+        .table p, .table .td {
+            float: left;
+            padding: 5px;
+            min-width: 25px;
+        }
+
+        .table p.cn, .table .td.cn, .table p.area, .table .td.area {
+            min-width: 100px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="content">
+    <div id="sporttery" class="table">
+
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../common/zepto.js"></script>
+<script type="text/javascript" src="../common/touch.js"></script>
+<script type="text/javascript" src="../common/util.js"></script>
+<script type="text/javascript">
+    $("#login").click(function (e) {
+
+
+    });
+    sporttery();
+
+    function sporttery() {
+        personal.ajax({
+            url: location.origin + "/jingcai/sporttery",
+            type: "post",
+            data: {},
+            callback: function (data, code, msg) {
+                console.log("=======jingcai/sporttery=========" + code + "=============");
+//                console.log(data);
+                if (100 === code) {
+                    renderSportteryTable(data.result);
+                } else {
+//                    alert(msg);
+                }
+            }
+        })
+    }
+
+    function renderSportteryTable(data) {
+        let _renderListId = RENDERLIST.filter(x => x.show).map(x => x.id);
+        let _renderListText = RENDERLIST.filter(x => x.show);
+        let _table = data.result;
+        // head 部分dom 的渲染
+        let _tableDom = `<div class="item title">${_renderListText.map(item => `<p class="td ${item.id}">${item.text}</p>`).join('')}</div>`;
+        //具体 公司 数据渲染
+        for (let item of _table.data) {
+            if (RENDERCOMPANYLIST.indexOf(item.cn) < 0) {
+                continue;
+            }
+            _tableDom += `<div class="item">`;
+            for (let key in item) {
+                if (_renderListId.indexOf(key) > -1) {
+                    _tableDom += `<p class="td ${key}">${item[key]}</p>`;
+                }
+            }
+            _tableDom += `</div>`;
+        }
+
+        $("#sporttery").html(_tableDom);
+
+    }
+
+    const RENDERCOMPANYLIST = ['威廉希尔', 'Interwetten'];
+    const RENDERLIST = [{
+        id: 'id',
+        text: 'id',
+        show: true
+    }, {
+        id: 'cn',
+        text: '公司名称',
+        show: true
+    }, {
+        id: 'order',
+        text: '排序',
+        show: false
+    }, {
+        id: 'area',
+        text: '公司所属地区',
+        show: false
+    }, {
+        id: 'win_s',
+        text: 'win_s',
+        show: true
+    }, {
+        id: 'win',
+        text: 'win',
+        show: true
+    }];
+</script>
+</html>

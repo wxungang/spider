@@ -1,0 +1,67 @@
+//基于 外层有新增的可以直接 导入新增
+//有删减的 则copy 之后另起一套
+@import "../common";
+//@import "../less/iconfont/iconfont.css";
+@import "./mixins/mixins";
+
+.up-header {
+  .up-header();
+}
+
+.up-list {
+  .up-list();
+  margin-bottom: 0.2rem;
+}
+
+.up-ellipsis {
+  .up-ellipsis();
+}
+
+.up-ellipsis2 {
+  .up-ellipsis(2);
+}
+
+.up-ellipsis3 {
+  .up-ellipsis(3);
+}
+
+.up-input {
+  .up-input();
+}
+
+.up-button {
+  .up-button();
+}
+
+.up-checkbox {
+  .up-checkbox();
+}
+
+.up-textarea {
+  .up-textarea();
+}
+
+.up-switch {
+  .up-switch();
+}
+
+.up-vertical {
+  .vertical-center();
+}
+
+@import "./component/address";
+.up-address {
+  .up-address();
+}
+
+//
+//@import "./component/counponCard";
+//@import "./component/bank";
+//
+//.up-couponCard {
+//  .up-couponCard('../../less/img/coupon/coupon.png');
+//}
+//
+//.up-bankLogo {
+//  .up-bankLogo('../../less/img/bank/banks.png');
+//}

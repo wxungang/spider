@@ -31,7 +31,7 @@ exports.test = (url, params) => {
         console.log("=============== proxy 3==========");
         console.log(_err);
         console.log("=============== proxy _resBody 3 ==========");
-        console.log(iconv.decode(_resBody, 'gb2312'));
+        // console.log(iconv.decode(_resBody, 'gb2312'));
         console.log("=============== proxy _res 3 ==========");
         // console.log(_resBody);
 //返回的body 直接就是buffer 了...

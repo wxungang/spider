@@ -6,6 +6,10 @@
     "config-lite": "^2.1.0",
     "request": "^2.85.0",
     "cheerio": "*",
-    "iconv-lite": "^0.4.21"
+    "iconv-lite": "^0.4.21",
+    "helmet": "^3.12.0",
+    "serve-favicon": "^2.5.0",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4"
   }
 }
