@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>login</title>
+    <title>jc</title>
     <script type="text/javascript" src="../common/resize.js"></script>
     <link type="text/css" rel="stylesheet" href="../common/common.css"/>
     <style type="text/css">
@@ -15,28 +15,31 @@
             margin: 2rem 0.8rem;
         }
 
-        .table, .table .item {
+        table {
+            border: 1px solid #c8e2ef;
             text-align: center;
-            line-height: 25px;
-            overflow: hidden;
+            line-height: 40px;
         }
 
-        .table p, .table .td {
-            float: left;
-            padding: 5px;
-            min-width: 25px;
-        }
-
-        .table p.cn, .table .td.cn, .table p.area, .table .td.area {
-            min-width: 100px;
+        table td {
+            /*height: 40px;*/
+            /*line-height: 40px;*/
+            border-top: 1px solid #c8e2ef;
+            border-right: 1px solid #c8e2ef;
         }
 
     </style>
 </head>
 <body>
 <div class="content">
-    <div id="sporttery" class="table">
+    <div id="sportPage" class="">
+        <p class="title" id="had">竞彩胜平负 （可配置 部分列表展示 ）</p>
 
+
+        <p class="title" id="hhad"> 竞彩让球胜平负(-1) （可配置 部分列表展示 ）</p>
+    </div>
+    <div id="sporttery" class="table">
+        <p>百家奖金（可配置 部分公司 和 部分列表展示）</p>
     </div>
 </div>
 </body>
@@ -52,7 +55,7 @@
 
     function sporttery() {
         personal.ajax({
-            url: location.origin + "/jingcai/sporttery",
+            url: location.origin + "/jingcai/bjj",
             type: "post",
             data: {},
             callback: function (data, code, msg) {
@@ -67,55 +70,157 @@
         })
     }
 
+    sportPage();
+
+    function sportPage() {
+        personal.ajax({
+            url: location.origin + "/jingcai/jps",
+            type: "post",
+            data: {},
+            callback: function (data, code, msg) {
+                console.log("=======jingcai/sportPage=========" + code + "=============");
+                console.log(data);
+                if (100 === code) {
+                    jps(data.result.result);
+                } else {
+                    alert(msg);
+                }
+            }
+        })
+    }
+
+    function jps(data) {
+//        const
+        const RENDER_LIST_JPS = [
+            {
+                id: 'id',
+                text: 'id',
+                show: false
+            }, {
+                id: 'h',
+                text: '胜',
+                show: true
+            }, {
+                id: 'h_updown',
+                text: '胜率变化',
+                show: false
+            }, {
+                id: 'h_ratio',
+                text: '胜率',
+                show: true
+            }, {
+                id: 'date',
+                text: '时间',
+                show: true
+            }, {
+                id: 'vote',
+                text: '支持率',
+                show: true,
+                colspan: 3
+            }, {
+                id: 'odds',
+                text: '统计',
+                show: true
+            }
+        ];
+
+        $('#had').append(_table(data.had));
+        $('#hhad').append(_table(data.hhad));
+        function _table(data) {
+            let _renderListId = RENDER_LIST_JPS.filter(x => x.show).map(x => x.id);
+            let _renderListText = RENDER_LIST_JPS.filter(x => x.show);
+            // table thead 部分dom 的渲染
+            let _tableDom = `<table cellspacing="0" cellpadding="0" class="com-table" width="100%"><thead><tr>${_renderListText.map(item => `<th colspan="${item.colspan || 1}">${item.text}</th>`).join('')}</tr></thead></tbody>`;
+
+//            _list.map((item, index) => index);  //遍历 tr dom
+            for (let index in data.list) {
+                let _item = data.list[index];
+                _tableDom += `<tr>`;
+                for (let key in _item) {
+                    //渲染 配置的 展示项
+                    if (_renderListId.indexOf(key) > -1) {
+                        _tableDom += `<td class="td ${key}">${_item[key]}</td>`;
+                    }
+                }
+                // 共同展示项 vote
+                if (index == 0) {
+                    for (let key in data.vote) {
+                        _tableDom += `<td rowspan="${data.list.length}" class="td ${key}">${data.vote[key]}</td>`;
+                    }
+                    //相同 统计显示
+                    if (_renderListId.indexOf('odds') > -1) {
+                        _tableDom += `<td rowspan="${data.list.length}" class="td odds}"><a href=${'http://info.sporttery.cn/football/search_odds.php?' + joinParams(data.odds)}>相同</a></td>`;
+                    }
+
+                }
+                _tableDom += `</tr>`;
+            }
+
+            return _tableDom + `</tbody></table>`;
+        }
+
+    }
+
     function renderSportteryTable(data) {
+        const RENDERCOMPANYLIST = ['威廉希尔', 'Interwetten'];
+        const RENDERLIST = [
+            {
+                id: 'id',
+                text: 'id',
+                show: true
+            }, {
+                id: 'cn',
+                text: '公司名称',
+                show: true
+            }, {
+                id: 'order',
+                text: '排序',
+                show: false
+            }, {
+                id: 'area',
+                text: '公司所属地区',
+                show: false
+            }, {
+                id: 'win_s',
+                text: 'win_s',
+                show: true
+            }, {
+                id: 'win',
+                text: 'win',
+                show: true
+            }
+        ];
         let _renderListId = RENDERLIST.filter(x => x.show).map(x => x.id);
         let _renderListText = RENDERLIST.filter(x => x.show);
         let _table = data.result;
         // head 部分dom 的渲染
-        let _tableDom = `<div class="item title">${_renderListText.map(item => `<p class="td ${item.id}">${item.text}</p>`).join('')}</div>`;
+//        let _tableDom = `<div class="item title">${_renderListText.map(item => `<p class="td ${item.id}">${item.text}</p>`).join('')}</div>`;
+        let _tableDom = `<table cellspacing="0" cellpadding="0" class="com-table" width="100%"><thead><tr>${_renderListText.map(item => `<th colspan="${item.colspan || 1}">${item.text}</th>`).join('')}</tr></thead></tbody>`;
         //具体 公司 数据渲染
         for (let item of _table.data) {
             if (RENDERCOMPANYLIST.indexOf(item.cn) < 0) {
                 continue;
             }
-            _tableDom += `<div class="item">`;
+            _tableDom += `<tr class="item">`;
             for (let key in item) {
                 if (_renderListId.indexOf(key) > -1) {
-                    _tableDom += `<p class="td ${key}">${item[key]}</p>`;
+                    _tableDom += `<td class="td ${key}">${item[key]}</td>`;
                 }
             }
-            _tableDom += `</div>`;
+            _tableDom += `</tr>`;
         }
 
-        $("#sporttery").html(_tableDom);
+        $("#sporttery").append(_tableDom);
 
     }
 
-    const RENDERCOMPANYLIST = ['威廉希尔', 'Interwetten'];
-    const RENDERLIST = [{
-        id: 'id',
-        text: 'id',
-        show: true
-    }, {
-        id: 'cn',
-        text: '公司名称',
-        show: true
-    }, {
-        id: 'order',
-        text: '排序',
-        show: false
-    }, {
-        id: 'area',
-        text: '公司所属地区',
-        show: false
-    }, {
-        id: 'win_s',
-        text: 'win_s',
-        show: true
-    }, {
-        id: 'win',
-        text: 'win',
-        show: true
-    }];
+    function joinParams(params, joinChar) {
+        var _urls = [];
+        for (var key in params) {
+            params[key] && _urls.push(key + "=" + encodeURIComponent(params[key]));
+        }
+        return _urls.join(joinChar || "&");
+    }
+
 </script>
 </html>
