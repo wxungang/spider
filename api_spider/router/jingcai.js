@@ -94,4 +94,35 @@ router.post('/jps', function (req, res, next) {
     )
 });
 
+/**
+ *获取 football 比赛安排
+ * http://i.sporttery.cn/odds_calculator/get_odds?i_format=json&i_callback=getData&poolcode[]=hhad&poolcode[]=had&_=1524278413156
+ */
+router.post('/footballMatches', (req, res, next) => {
+    let _url = 'http://i.sporttery.cn/odds_calculator/get_odds?i_format=json&i_callback=getData&poolcode[]=hhad&poolcode[]=had';
+    let _result = null;
+    let _body = req.body;
+    console.log(req.body);
+    console.log(req.session);
+    let _cmd = req.originalUrl || req.baseUrl + req.url;
+
+    //url
+    if (_body.url) {
+        _url = _body.url;
+    }
+    // _url += _body.mid || 106925;
+    _body.url = _url;
+
+
+    //返回异常处理结果
+    if (_result) {
+        res.json(Object.assign(_result, {cmd: _cmd}));
+        return;
+    }
+    //service
+    jingcai_service.sporttery(_body).then(
+        data => res.json(res_format.response_format({result: data, cmd: _cmd})),
+        err => res.json(res_format.response_without_result({result: err, cmd: _cmd}))
+    )
+});
 module.exports = router;
