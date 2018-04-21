@@ -13,13 +13,7 @@ const root = new Vue({
             footballs: {},//所有的 比赛原始 数据
             baiJiaJiangData: {}, //需要核对的 百家 数据
             shengpingfuData: {},//需要核对的 胜平负数据,
-            targetFootball: {
-                456:{
-                    company:[{
-                        cn:"测试"
-                    }]
-                }
-            },
+            targetFootball: {},
             baijiajiangajaxFlag: false,
         }
     },
@@ -160,7 +154,7 @@ const root = new Vue({
                             _this.baiJiaJiangData[_mid] = _result;
                         }
 
-                        _this.setTargetFootball(_mid);
+                        _this.setTargetFootball(params);
                     }
                 }
             })
@@ -188,12 +182,13 @@ const root = new Vue({
                         _this.shengpingfuData[_mid]._had = _latestData;
                         _this.shengpingfuData[_mid].hadMinTatget = _this.minTatget(_latestData);
                         // console.log(_this.shengpingfuData[_mid].hadMinTatget);
-                        _this.setTargetFootball(_mid);
+                        _this.setTargetFootball(params);
                     }
                 }
             })
         },
-        setTargetFootball: function (mid) {
+        setTargetFootball: function (params) {
+            let mid = params.mid || params.id;
             console.log(mid);
             if (!this.targetFootball[mid] && this.shengpingfuData[mid] && this.baiJiaJiangData[mid]) {
                 //
@@ -203,7 +198,8 @@ const root = new Vue({
                 });
                 if (_companys.length) {
                     this.$set(this.targetFootball, mid, {
-                        company: _companys
+                        company: _companys,
+                        foot:params
                     })
                 }
 

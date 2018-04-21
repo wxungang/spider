@@ -5,7 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>football created by xiaogang on 2018/4/21</title>
     <style type="text/css">
+        table {
+            border: 1px solid #c8e2ef;
+            text-align: center;
+            line-height: 40px;
+        }
 
+        table td {
+            /*height: 40px;*/
+            /*line-height: 40px;*/
+            border-top: 1px solid #c8e2ef;
+            border-right: 1px solid #c8e2ef;
+        }
     </style>
 </head>
 <body>
@@ -14,9 +25,60 @@
     <div v-for="(item,key) in targetFootball">
         <p v-if="item.company.length">
             <a :href="'http://info.sporttery.cn/football/info/fb_match_hhad.php?m='+key" target="_blank">
-                {{ key +' & '+ item.company[0].cn}}
+                {{ item.foot.time+' & '+ item.foot.l_cn_abbr +'&'+item.foot.h_cn_abbr+' VS '+ item.foot.a_cn_abbr}}
             </a>
         </p>
+        <table cellspacing="0" cellpadding="0" class="com-table" width="100%">
+            <thead>
+            <tr>
+                <th width="100">胜</th>
+                <th width="100">平</th>
+                <th width="100">负</th>
+                <!--<th width="100">胜率</th>-->
+                <!--<th width="100">平率</th>-->
+                <!--<th width="100">负率</th>-->
+                <th width="200">时间</th>
+                <!--<th colspan="3">支持率</th>-->
+                <!--<th width="60" class="nr">统计</th>-->
+            </tr>
+            <tr>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{shengpingfuData[key]&&shengpingfuData[key]._had.h}}</td>
+                <td>{{shengpingfuData[key]&&shengpingfuData[key]._had.d}}</td>
+                <td>{{shengpingfuData[key]&&shengpingfuData[key]._had.a}}</td>
+                <td>{{shengpingfuData[key]&&(shengpingfuData[key]._had.date + shengpingfuData[key]._had.time) }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <table cellspacing="0" cellpadding="0" class="com-table" width="100%">
+            <thead>
+            <tr>
+                <th width="100">公司</th>
+                <th width="100">胜</th>
+                <th width="100">平</th>
+                <th width="100">负</th>
+                <!--<th width="100">胜率</th>-->
+                <!--<th width="100">平率</th>-->
+                <!--<th width="100">负率</th>-->
+                <!--<th width="200">时间</th>-->
+                <!--<th colspan="3">支持率</th>-->
+                <!--<th width="60" class="nr">统计</th>-->
+            </tr>
+            <tr>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="comp in item.company">
+                <td>{{comp.cn}}</td>
+                <td>{{comp.win}}</td>
+                <td>{{comp.draw}}</td>
+                <td>{{comp.lose }}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
 </div>
