@@ -3,7 +3,7 @@ const root = new Vue({
     data: function () {
         return {
             title: 'root',
-            careCompany: [],// ['威廉希尔', '立博', 'bwin', 'Interwetten'],
+            careCompany: ['威廉希尔', '立博', '澳门', '伟德', '香港马会', '皇冠', '金宝博', '明陞', '利记'],// ['威廉希尔', '立博', '澳门', '伟德','香港马会','皇冠','金宝博','明陞','利记'],
             dateString: 20180421,
             targetMap: {
                 h: 'win',
@@ -199,7 +199,7 @@ const root = new Vue({
                 if (_companys.length) {
                     this.$set(this.targetFootball, mid, {
                         company: _companys,
-                        foot:params
+                        foot: params
                     })
                 }
 
