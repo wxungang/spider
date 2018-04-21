@@ -31,9 +31,10 @@ router.get('/', function (req, res, next) {
 /**
  * 百家奖金（以下数据仅供参考）
  * url: http://i.sporttery.cn/api/fb_match_info/get_europe/?f_callback=hb_odds&dc_mid=616474
+ *      http://i.sporttery.cn/api/fb_match_info/get_europe/?f_callback=hb_odds&mid=106997
  */
 router.post('/bjj', function (req, res, next) {
-    let _url = 'http://i.sporttery.cn/api/fb_match_info/get_europe/?f_callback=hb_odds&dc_mid=';
+    let _url = 'http://i.sporttery.cn/api/fb_match_info/get_europe/?f_callback=hb_odds&mid=';
     let _result = null;
     let _body = req.body;
     console.log(req.body);
@@ -66,7 +67,7 @@ router.post('/bjj', function (req, res, next) {
  * url: http://i.sporttery.cn/api/fb_match_info/get_odds/?mid=106925&f_callback=sportteryOdds
  * 从页面 dom 中抓取 数据
  */
-router.post('/jps', function (req, res, next) {
+router.post('/spf', function (req, res, next) {
     let _url = 'http://i.sporttery.cn/api/fb_match_info/get_odds/?f_callback=sportteryOdds&mid=';
     let _result = null;
     let _body = req.body;

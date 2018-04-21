@@ -10,13 +10,26 @@
 </head>
 <body>
 <header>football</header>
+<div class="content" id="root">
+    <div v-for="(item,key) in test">
+        {{ item +key}}
+    </div>
+
+    <div v-for="(item,key) in targetFootball">
+        {{key+'&&'+item.company.length}}
+        <p v-if="item.company.length">
+            <a href>
+                {{ key +' & '+ item.company[0].cn}}
+            </a>
+        </p>
+    </div>
+
+</div>
 </body>
+<script type="text/javascript" src="../common/vue.js"></script>
 <script type="text/javascript" src="../common/zepto.js"></script>
 <script type="text/javascript" src="../common/touch.js"></script>
 <script type="text/javascript" src="../common/util.js"></script>
 <script type="text/javascript" src="./football.js"></script>
-<script type="text/javascript">
-
-</script>
 
 </html>
