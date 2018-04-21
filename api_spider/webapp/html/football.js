@@ -3,14 +3,14 @@ const root = new Vue({
     data: function () {
         return {
             title: 'root',
-            careCompany: ['威廉希尔', '立博', '澳门', '伟德', '香港马会', '皇冠', '金宝博', '明陞', '利记'],// ['威廉希尔', '立博', '澳门', '伟德','香港马会','皇冠','金宝博','明陞','利记'],
+            careCompany: [],// ['威廉希尔', '立博', '澳门', '伟德','香港马会','皇冠','金宝博','明陞','利记'],
             dateString: 20180421,
             targetMap: {
                 h: 'win',
                 d: 'draw',
                 a: 'lose'
             },
-            footballs: {},//所有的 比赛原始 数据
+            footballs: [],//所有的 比赛原始 数据
             baiJiaJiangData: {}, //需要核对的 百家 数据
             shengpingfuData: {},//需要核对的 胜平负数据,
             targetFootball: {},
@@ -23,7 +23,7 @@ const root = new Vue({
          * @returns {any[]}
          */
         cptFootballKeys: function () {
-            return Object.keys(this.footballs); //Object.keys 没法触发 计算属性！
+          //  return Object.keys(this.footballs); //Object.keys 没法触发 计算属性！
             // let _cptFootballKeys = [];
             // for (let key in this.footballs) {
             //     if (this.footballs[key].b_date.replace(/-/g, '') == this.dateString) {
@@ -35,14 +35,14 @@ const root = new Vue({
             // return _cptFootballKeys;
         },
         cptTargetFootball: function () {
-            return Object.values(this.footballs).filter(item => item.b_date && item.b_date.replace(/-/g, '') == this.dateString);
+            //return Object.values(this.footballs).filter(item => item.b_date && item.b_date.replace(/-/g, '') == this.dateString);
         },
         /**
          * [{TodayFootball}]
          * @returns {any[]}
          */
         cptTodayFootball: function () {
-            return Object.values(this.footballs).filter(item => item.b_date && item.b_date.replace(/-/g, '') == this.dateString);
+            //return Object.values(this.footballs).filter(item => item.b_date && item.b_date.replace(/-/g, '') == this.dateString);
         },
         /**
          * TodayFootballHad  胜平负数据
@@ -83,7 +83,7 @@ const root = new Vue({
         }
     },
     watch: {
-        cptTodayFootball: function (val, oval) {
+        footballs: function (val, oval) {
             console.log('------cptTodayFootballs-----');
             console.log(oval);
             this.eachFootballMatchBaiJia();
@@ -104,7 +104,7 @@ const root = new Vue({
                 callback: function (data, code, msg) {
                     console.log("=======jingcai/footballMatches=========" + code + "=============");
                     if (100 === code) {
-                        _this.footballs = data.result.data;
+                        _this.footballs = data.result;
                         console.log(_this.footballs)
                         // _setFOOTBALLDATA(data.result);
                     }
@@ -123,7 +123,7 @@ const root = new Vue({
             }
         },
         eachFootballMatchBaiJia: function () {
-            this.cptTodayFootball.forEach((item, index) => {
+            this.footballs.forEach((item, index) => {
                 if (!index) {
                     console.log(item)
                 }
@@ -146,14 +146,14 @@ const root = new Vue({
                 callback: function (data, code, msg) {
                     console.log("=======jingcai/sporttery=======" + code + "=========");
                     if (100 === code) {
-                        let _result = data.result && data.result.result.data;
-                        if (_this.careCompany.length) {
-                            //关心的数据
-                            _this.baiJiaJiangData[_mid] = _result.filter(item => _this.careCompany.indexOf(item.cn) > -1);
-                        } else {
-                            _this.baiJiaJiangData[_mid] = _result;
-                        }
-
+                        let _result = data.result;
+                        // if (_this.careCompany.length) {
+                        //     //关心的数据
+                        //     _this.baiJiaJiangData[_mid] = _result.filter(item => _this.careCompany.indexOf(item.cn) > -1);
+                        // } else {
+                        //     _this.baiJiaJiangData[_mid] = _result;
+                        // }
+                        _this.baiJiaJiangData[_mid] = _result;
                         _this.setTargetFootball(params);
                     }
                 }

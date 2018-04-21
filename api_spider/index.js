@@ -12,6 +12,11 @@ const favicon = require('serve-favicon');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+const moment = require('moment');
+console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+console.log('----------')
+console.log(moment(moment(), "YYYY-MM-DD"));
+
 
 // 路由 在 express 实例化之前
 const routes = require('./router/index');// or  require('./router');
@@ -44,7 +49,7 @@ app.set('view engine', 'ejs');
 // 设置静态文件目录
 app.use(config.publicPath, express.static(path.join(__dirname, './public')));
 // 前端 静态资源区 [更多配置 查看官方api]
-app.use('/', express.static(path.join(__dirname, './webapp'),{maxAge: 1000,index: ['index.html', 'app.html']}));
+app.use('/', express.static(path.join(__dirname, './webapp'), {maxAge: 1000, index: ['index.html', 'app.html']}));
 
 // 路由
 routes(app);
