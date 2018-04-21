@@ -12,10 +12,11 @@ const favicon = require('serve-favicon');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-const moment = require('moment');
-console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
-console.log('----------')
-console.log(moment(moment(), "YYYY-MM-DD"));
+// const moment = require('moment');
+// console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+// console.log('----------')
+// console.log(moment('2018-04-21 23:00:00')<moment());
+// console.log(moment('2018-04-22 23:00:00')<moment());
 
 
 // 路由 在 express 实例化之前

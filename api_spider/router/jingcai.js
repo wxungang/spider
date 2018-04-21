@@ -130,7 +130,8 @@ router.post('/footballMatches', (req, res, next) => {
     jingcai_service.sporttery(_body).then(
         data => res.json(res_format.response_format({
             result: Object.values(data.data).filter(item => {
-                return item.b_date == TIMER[0]
+                //当天比赛 同时 超过当前时间的
+                return item.b_date == TIMER[0] && moment(item.date + ' ' + item.time) > moment()
             }), cmd: _cmd
         })),
         err => res.json(res_format.response_without_result({result: err, cmd: _cmd}))
