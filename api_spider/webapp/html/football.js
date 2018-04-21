@@ -13,7 +13,13 @@ const root = new Vue({
             footballs: {},//所有的 比赛原始 数据
             baiJiaJiangData: {}, //需要核对的 百家 数据
             shengpingfuData: {},//需要核对的 胜平负数据,
-            targetFootball: {},
+            targetFootball: {
+                456:{
+                    company:[{
+                        cn:"测试"
+                    }]
+                }
+            },
             baijiajiangajaxFlag: false,
         }
     },
@@ -88,15 +94,10 @@ const root = new Vue({
             console.log(oval);
             this.eachFootballMatchBaiJia();
 
-        },
-        footballs(val, oval) {
-            console.log('------footballs-----');
-        },
-
+        }
     },
     created() {
         this.getFootballMatches();
-        this.footballs = {a: 1}
     },
 
     methods: {
@@ -132,7 +133,7 @@ const root = new Vue({
                 if (!index) {
                     console.log(item)
                 }
-                if (index) {
+                if (1) {
                     this.baijiajiang(item);
                     this.shengpingfu(item);
                 }
@@ -181,12 +182,12 @@ const root = new Vue({
 
                         //关心的数据 对象
                         let _latestData = _result.had.list[_result.had.list.length - 1];
-                        console.log(_result.had.list);
-                        console.log(_latestData);
+                        // console.log(_result.had.list);
+                        // console.log(_latestData);
 
                         _this.shengpingfuData[_mid]._had = _latestData;
                         _this.shengpingfuData[_mid].hadMinTatget = _this.minTatget(_latestData);
-                        console.log(_this.shengpingfuData[_mid].hadMinTatget);
+                        // console.log(_this.shengpingfuData[_mid].hadMinTatget);
                         _this.setTargetFootball(_mid);
                     }
                 }
@@ -197,10 +198,15 @@ const root = new Vue({
             if (!this.targetFootball[mid] && this.shengpingfuData[mid] && this.baiJiaJiangData[mid]) {
                 //
                 let _hadMinTatget = this.shengpingfuData[mid].hadMinTatget;
-                this.targetFootball[mid] = {};
-                this.targetFootball[mid].company = this.baiJiaJiangData[mid].filter(item => {
+                let _companys = this.baiJiaJiangData[mid].filter(item => {
                     return item[_hadMinTatget.target] < _hadMinTatget.val;
                 });
+                if (_companys.length) {
+                    this.$set(this.targetFootball, mid, {
+                        company: _companys
+                    })
+                }
+
 
             }
         },
@@ -218,44 +224,5 @@ const root = new Vue({
     }
 
 });
-
-
-// footballMatches();
-
-const FOOTBALLDATA = {
-    day: 0,//当天 1 今明两天
-    data: [],
-    baijia: {}
-};
-
-function footballMatches() {
-    personal.ajax({
-        url: location.origin + "/jingcai/footballMatches",
-        type: "post",
-        data: {},
-        callback: function (data, code, msg) {
-            console.log("=======jingcai/footballMatches=========" + code + "=============");
-            console.log(data);
-            if (100 === code) {
-                _setFOOTBALLDATA(data.result);
-            } else {
-
-            }
-        }
-    });
-
-    function _setFOOTBALLDATA(data) {
-        let _dateString = (new Date()).Format("yyyyMMdd");
-        let _FOOTBALLDATA = data.data;
-
-        //
-        FOOTBALLDATA.data = Object.values(data.data).filter(item => item.b_date.replace(/-/g, '') === _dateString);
-
-        console.log(FOOTBALLDATA);
-
-    }
-}
-
-
 
 

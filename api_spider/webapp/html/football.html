@@ -11,14 +11,9 @@
 <body>
 <header>football</header>
 <div class="content" id="root">
-    <div v-for="(item,key) in test">
-        {{ item +key}}
-    </div>
-
     <div v-for="(item,key) in targetFootball">
-        {{key+'&&'+item.company.length}}
         <p v-if="item.company.length">
-            <a href>
+            <a :href="'http://info.sporttery.cn/football/info/fb_match_hhad.php?m='+key" target="_blank">
                 {{ key +' & '+ item.company[0].cn}}
             </a>
         </p>

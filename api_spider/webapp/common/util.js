@@ -429,11 +429,11 @@ window.personal = window.personal || {};
 
             url = prefix + params.url + '.json';
         }
-        console.log(url);
+        // console.log(url);
         //2016-9-26 新增webp的图片格式判断
         params.data = params.data || {};
         params.data.webp = this.supportWebp;
-        console.log(params);
+        // console.log(params);
         var _params = {
             type: params.type || "post",//默认post请求
             url: url,
