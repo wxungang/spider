@@ -13,9 +13,10 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 // const moment = require('moment');
-// console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+// const time=moment();
+// console.log(time.format('YYYY-MM-DD'));
 // console.log('----------')
-// console.log(moment('2018-04-21 23:00:00')<moment());
+// console.log(moment('2018-04-21 23:00:00')<time);
 // console.log(moment('2018-04-22 23:00:00')<moment());
 
 

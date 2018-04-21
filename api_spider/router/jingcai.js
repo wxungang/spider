@@ -106,7 +106,7 @@ router.post('/spf', function (req, res, next) {
  */
 router.post('/footballMatches', (req, res, next) => {
     let _url = 'http://i.sporttery.cn/odds_calculator/get_odds?i_format=json&i_callback=getData&poolcode[]=hhad&poolcode[]=had';
-    const TIMER = moment().format('YYYY-MM-DD HH:mm:ss').split(' ');
+    const TIMER = moment();
     let _result = null;
     let _body = req.body;
     console.log(req.body);
@@ -131,7 +131,7 @@ router.post('/footballMatches', (req, res, next) => {
         data => res.json(res_format.response_format({
             result: Object.values(data.data).filter(item => {
                 //当天比赛 同时 超过当前时间的
-                return item.b_date == TIMER[0] && moment(item.date + ' ' + item.time) > moment()
+                return item.b_date == TIMER.format('YYYY-MM-DD') && moment(item.date + ' ' + item.time) > TIMER
             }), cmd: _cmd
         })),
         err => res.json(res_format.response_without_result({result: err, cmd: _cmd}))
