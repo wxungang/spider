@@ -37,8 +37,7 @@ const root = new Vue({
     created() {
         this.getFootballMatches();
         //每隔 60分钟 更新 比赛信息！
-        clearTimeout(setIntervalTimer);
-        let setIntervalTimer = setInterval(() => {
+       let setIntervalTimer = setInterval(() => {
             this.getFootballMatches();
         }, this.getFootballMatchesTime);
     },
