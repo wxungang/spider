@@ -446,7 +446,6 @@ window.personal = window.personal || {};
             success: function (data) {
                 // _this.ui && _this.ui.hideLoading();
                 if (data && data.code == 10000) {
-                    console.log("success");
                     _this.successCallback(params.callback, data);
                 } else {
                     _this.errorCallback(params.callback, data || {

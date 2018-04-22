@@ -3,13 +3,17 @@ const root = new Vue({
     data: function () {
         return {
             title: 'root',
-            careCompany: [],// ['威廉希尔', '立博', '澳门', '伟德','香港马会','皇冠','金宝博','明陞','利记'],
-            dateString: 20180421,
+            careCompany: [],// ['威廉希尔', '立博', '澳门', '伟德','香港马会','皇冠','金宝博','明陞','利记'],//服务端配置了。减少接口数据请求！
+            dateString: 20180421,//服务端控制了。减少接口数据请求！
             targetMap: {
                 h: 'win',
                 d: 'draw',
                 a: 'lose'
             },
+            eachFootballMatchBaiJiaTimer: null,
+            eachFootballMatchBaiJiaIndex: 0,
+            eachFootballMatchBaiJiaTime: 1000 * 60 * 5,//5分钟
+            getFootballMatchesTime: 1000 * 60 * 60,//60分钟
             footballs: [],//所有的 比赛原始 数据
             baiJiaJiangData: {}, //需要核对的 百家 数据
             shengpingfuData: {},//需要核对的 胜平负数据,
@@ -23,7 +27,7 @@ const root = new Vue({
          * @returns {any[]}
          */
         cptFootballKeys: function () {
-          //  return Object.keys(this.footballs); //Object.keys 没法触发 计算属性！
+            //  return Object.keys(this.footballs); //Object.keys 没法触发 计算属性！
             // let _cptFootballKeys = [];
             // for (let key in this.footballs) {
             //     if (this.footballs[key].b_date.replace(/-/g, '') == this.dateString) {
@@ -92,6 +96,11 @@ const root = new Vue({
     },
     created() {
         this.getFootballMatches();
+        //每隔 60分钟 更新 比赛信息！
+        let setIntervalTimer = setInterval(() => {
+            clearTimeout(setIntervalTimer);
+            this.getFootballMatches();
+        }, this.getFootballMatchesTime);
     },
 
     methods: {
@@ -106,32 +115,26 @@ const root = new Vue({
                     if (100 === code) {
                         _this.footballs = data.result;
                         console.log(_this.footballs)
-                        // _setFOOTBALLDATA(data.result);
                     }
                 }
             });
-
-            function _setFOOTBALLDATA(data) {
-                let _dateString = (new Date()).Format("yyyyMMdd");
-                let _FOOTBALLDATA = data.data;
-
-                //
-                FOOTBALLDATA.data = Object.values(data.data).filter(item => item.b_date.replace(/-/g, '') === _dateString);
-
-                console.log(FOOTBALLDATA);
-
-            }
+        },
+        eachFootballMatchBaiJiaTimerFunc: function () {
+            //每隔 eachFootballMatchBaiJiaTime 分钟 更新数据
+            this.eachFootballMatchBaiJiaTimer = setTimeout(() => {
+                clearTimeout(this.eachFootballMatchBaiJiaTimer);
+                this.eachFootballMatchBaiJia();
+            }, this.eachFootballMatchBaiJiaTime);
         },
         eachFootballMatchBaiJia: function () {
             this.footballs.forEach((item, index) => {
-                if (!index) {
-                    console.log(item)
-                }
-                if (1) {
-                    this.baijiajiang(item);
-                    this.shengpingfu(item);
-                }
+                this.baijiajiang(item);
+                this.shengpingfu(item);
 
+                // this.eachFootballMatchBaiJiaIndex=index; //可以通过watch 监听
+                if (index + 1 === this.footballs.length) {
+                    this.eachFootballMatchBaiJiaTimerFunc();
+                }
             });
         },
         baijiajiang: function (params) {
@@ -144,7 +147,7 @@ const root = new Vue({
                     mid: _mid
                 },
                 callback: function (data, code, msg) {
-                    console.log("=======jingcai/sporttery=======" + code + "=========");
+                    // console.log("=======jingcai/sporttery=======" + code + "=========");
                     if (100 === code) {
                         let _result = data.result;
                         // if (_this.careCompany.length) {
@@ -175,14 +178,19 @@ const root = new Vue({
                         _this.shengpingfuData[_mid] = _result;
 
                         //关心的数据 对象
-                        let _latestData = _result.had.list[_result.had.list.length - 1];
-                        // console.log(_result.had.list);
-                        // console.log(_latestData);
+                        if (_result.had) {
+                            let _latestData = _result.had.list[_result.had.list.length - 1];
+                            // console.log(_result.had.list);
+                            // console.log(_latestData);
 
-                        _this.shengpingfuData[_mid]._had = _latestData;
-                        _this.shengpingfuData[_mid].hadMinTatget = _this.minTatget(_latestData);
-                        // console.log(_this.shengpingfuData[_mid].hadMinTatget);
-                        _this.setTargetFootball(params);
+                            _this.shengpingfuData[_mid]._had = _latestData;
+                            _this.shengpingfuData[_mid].hadMinTatget = _this.minTatget(_latestData);
+                            // console.log(_this.shengpingfuData[_mid].hadMinTatget);
+                            _this.setTargetFootball(params);
+                        } else {
+                            console.log(_mid + JSON.stringify(_result));
+                        }
+
                     }
                 }
             })
