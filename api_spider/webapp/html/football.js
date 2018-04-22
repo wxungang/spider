@@ -12,8 +12,8 @@ const root = new Vue({
             },
             eachFootballMatchBaiJiaTimer: null,
             eachFootballMatchBaiJiaIndex: 0,
-            eachFootballMatchBaiJiaTime: 1000 * 60 * 5,//5分钟
-            getFootballMatchesTime: 1000 * 60 * 60,//60分钟
+            eachFootballMatchBaiJiaTime: 15,//15分钟(默认) 拉取 百家数据和胜平负数据
+            getFootballMatchesTime: 1000 * 60 * 60,//60分钟 更新比赛数据
             footballs: [],//所有的 比赛原始 数据
             baiJiaJiangData: {}, //需要核对的 百家 数据
             shengpingfuData: {},//需要核对的 胜平负数据,
@@ -22,68 +22,8 @@ const root = new Vue({
         }
     },
     computed: {
-        /**
-         * [key]
-         * @returns {any[]}
-         */
-        cptFootballKeys: function () {
-            //  return Object.keys(this.footballs); //Object.keys 没法触发 计算属性！
-            // let _cptFootballKeys = [];
-            // for (let key in this.footballs) {
-            //     if (this.footballs[key].b_date.replace(/-/g, '') == this.dateString) {
-            //         console.log(key);
-            //         _cptFootballKeys.push(key.replace(/_/g, ''));
-            //     }
-            // }
-            //
-            // return _cptFootballKeys;
-        },
-        cptTargetFootball: function () {
-            //return Object.values(this.footballs).filter(item => item.b_date && item.b_date.replace(/-/g, '') == this.dateString);
-        },
-        /**
-         * [{TodayFootball}]
-         * @returns {any[]}
-         */
-        cptTodayFootball: function () {
-            //return Object.values(this.footballs).filter(item => item.b_date && item.b_date.replace(/-/g, '') == this.dateString);
-        },
-        /**
-         * TodayFootballHad  胜平负数据
-         * h\d\a 胜平负
-         */
-        cptTodayFootballHad: function () {
-            // return this.cptTodayFootball.map((item, index) => {
-            //     let _item = {id: item.id, company: []};
-            //     //有胜平负数据则更新 到 覆盖 cptTodayFootball 数据
-            //     let _shengpingfuDataItem = this.shengpingfuData[item.id];
-            //     if (_shengpingfuDataItem && _shengpingfuDataItem.had && _shengpingfuDataItem.had.list) {
-            //         _item.newHad = _shengpingfuDataItem.had.list.pop();
-            //     }
-            //     _item.hadMinTatget = this.minTatget(_item.newHad || item.had);
-            //     return _item;
-            // });
-        },
-        /**
-         * baijiajiang 核对
-         * 初始胜平负 :  win_s  \  draw_s  \   lose_s
-         * 及时胜平负 ： win 、draw \lose
-         */
-        cptTodayFootballTarget: function () {
-            // return this.cptTodayFootballHad.filter(item => {
-            //     if (this.baiJiaJiangData[item.id]) {
-            //         item.company = this.baiJiaJiangData[item.id].filter((_item, _index) => {
-            //             //_item 具体公司
-            //             if (_index < 4) {//部分公司数据
-            //                 //目标 公司 （小）
-            //                 console.log(_item[item.hadMinTatget.target]);
-            //                 return _item[item.hadMinTatget.target] > item.hadMinTatget.val;
-            //             }
-            //             return false
-            //         });
-            //     }
-            //     return false;
-            // });
+        cptEachFootballMatchBaiJiaTime: function () {
+            return 1000 * 60 * this.eachFootballMatchBaiJiaTime
         }
     },
     watch: {
@@ -97,8 +37,8 @@ const root = new Vue({
     created() {
         this.getFootballMatches();
         //每隔 60分钟 更新 比赛信息！
+        clearTimeout(setIntervalTimer);
         let setIntervalTimer = setInterval(() => {
-            clearTimeout(setIntervalTimer);
             this.getFootballMatches();
         }, this.getFootballMatchesTime);
     },
@@ -119,12 +59,17 @@ const root = new Vue({
                 }
             });
         },
+        changeEachFootballMatchBaiJiaTime: function () {
+            console.log(this.cptEachFootballMatchBaiJiaTime);
+            this.eachFootballMatchBaiJiaTimerFunc();
+        },
         eachFootballMatchBaiJiaTimerFunc: function () {
+            clearTimeout(this.eachFootballMatchBaiJiaTimer);
             //每隔 eachFootballMatchBaiJiaTime 分钟 更新数据
             this.eachFootballMatchBaiJiaTimer = setTimeout(() => {
-                clearTimeout(this.eachFootballMatchBaiJiaTimer);
+                console.log(this.cptEachFootballMatchBaiJiaTime);
                 this.eachFootballMatchBaiJia();
-            }, this.eachFootballMatchBaiJiaTime);
+            }, this.cptEachFootballMatchBaiJiaTime);
         },
         eachFootballMatchBaiJia: function () {
             this.footballs.forEach((item, index) => {
@@ -149,14 +94,16 @@ const root = new Vue({
                 callback: function (data, code, msg) {
                     // console.log("=======jingcai/sporttery=======" + code + "=========");
                     if (100 === code) {
-                        let _result = data.result;
+                        // let _result = data.result;
                         // if (_this.careCompany.length) {
                         //     //关心的数据
                         //     _this.baiJiaJiangData[_mid] = _result.filter(item => _this.careCompany.indexOf(item.cn) > -1);
                         // } else {
                         //     _this.baiJiaJiangData[_mid] = _result;
                         // }
-                        _this.baiJiaJiangData[_mid] = _result;
+
+                        // _this.baiJiaJiangData[_mid] = _result;
+                        _this.$set(_this.baiJiaJiangData, _mid, data.result);
                         _this.setTargetFootball(params);
                     }
                 }
@@ -175,7 +122,7 @@ const root = new Vue({
                     console.log("=======jingcai/sporttery=======" + code + "=========");
                     if (100 === code) {
                         let _result = data.result && data.result.result;
-                        _this.shengpingfuData[_mid] = _result;
+                        // _this.shengpingfuData[_mid] = _result;
 
                         //关心的数据 对象
                         if (_result.had) {
@@ -183,14 +130,18 @@ const root = new Vue({
                             // console.log(_result.had.list);
                             // console.log(_latestData);
 
-                            _this.shengpingfuData[_mid]._had = _latestData;
-                            _this.shengpingfuData[_mid].hadMinTatget = _this.minTatget(_latestData);
+                            // _this.shengpingfuData[_mid]._had = _latestData;
+                            // _this.shengpingfuData[_mid].hadMinTatget = _this.minTatget(_latestData);
                             // console.log(_this.shengpingfuData[_mid].hadMinTatget);
+
+                            _this.$set(_this.shengpingfuData, _mid, {
+                                _had: _latestData,
+                                hadMinTarget: _this.minTatget(_latestData)
+                            });
                             _this.setTargetFootball(params);
                         } else {
                             console.log(_mid + JSON.stringify(_result));
                         }
-
                     }
                 }
             })
@@ -198,21 +149,26 @@ const root = new Vue({
         setTargetFootball: function (params) {
             let mid = params.mid || params.id;
             console.log(mid);
+
             if (!this.targetFootball[mid] && this.shengpingfuData[mid] && this.baiJiaJiangData[mid]) {
                 //
-                let _hadMinTatget = this.shengpingfuData[mid].hadMinTatget;
+                let _hadMinTarget = this.shengpingfuData[mid].hadMinTarget;
+                if (!_hadMinTarget) {
+                    console.log(mid + JSON.stringify(this.shengpingfuData[mid]));
+                    // return; //么有标的值
+                }
                 let _companys = this.baiJiaJiangData[mid].filter(item => {
-                    return item[_hadMinTatget.target] < _hadMinTatget.val;
+                    return item[_hadMinTarget.target] < _hadMinTarget.val;
                 });
                 if (_companys.length) {
                     this.$set(this.targetFootball, mid, {
+                        had: this.baiJiaJiangData[mid],
                         company: _companys,
                         foot: params
                     })
                 }
-
-
             }
+
         },
         minArray: function (arr) {
             return Math.min(...arr);

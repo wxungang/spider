@@ -448,6 +448,7 @@ window.personal = window.personal || {};
                 if (data && data.code == 10000) {
                     _this.successCallback(params.callback, data);
                 } else {
+                    console.log(data);
                     _this.errorCallback(params.callback, data || {
                             "success": false,
                             "code": 0,

@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>football created by xiaogang on 2018/4/21</title>
     <style type="text/css">
+        header {
+            text-align: center;
+        }
+
+        input {
+            display: inline-block;
+        }
+
         table {
             border: 1px solid #c8e2ef;
             text-align: center;
@@ -22,6 +30,7 @@
 <body>
 <header>football</header>
 <div class="content" id="root">
+    百家数据和胜平负数据（更新频率 min）： <input type="number" min="1" v-model="eachFootballMatchBaiJiaTime" @change="changeEachFootballMatchBaiJiaTime">
     <div v-for="(item,key) in targetFootball">
         <p v-if="item.company.length">
             <a :href="'http://info.sporttery.cn/football/info/fb_match_hhad.php?m='+key" target="_blank">

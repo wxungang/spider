@@ -32,6 +32,7 @@ exports.sporttery = function (params) {
             // encoding: null
         }, function (err, res, resBody) {
             if (err) {
+                console.log(err);
                 reject(err);
             } else {
                 try {
